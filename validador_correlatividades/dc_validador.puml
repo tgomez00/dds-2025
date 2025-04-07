@@ -7,32 +7,29 @@ interface List
 interface Collection
 
 @startuml
+package org.example {
 
-package "org.example" {
+  class Alumno {
+    - nombre : String
+    - apellido : String
+    - edad : Integer
+    - sexo : String
+    - materiasAprobadas : List<Materia>
+  }
 
-    class Alumno {
-        - nombre : String
-        - apellido : String
-        - edad : Integer
-        - sexo : String
-        - materiasAprobadas : List<Materia>
-        + Alumno(nombre, apellido, edad, sexo, materiasAprobadas)
-    }
+  class Materia {
+    - nombre : String
+    - correlativas : List<Materia>
+  }
 
-    class Materia {
-        - nombre : String
-        - correlativas : List<Materia>
-        + Materia(nombre, correlativas)
-    }
+  class Inscripcion {
+    + aprobada(alumno : Alumno, materia : Materia) : boolean
+  }
 
-    class Inscripcion {
-        + aprobada(alumno : Alumno, materia : Materia) : boolean
-    }
-
-    Alumno "1" --> "*" Materia : materiasAprobadas
-    Materia "1" --> "*" Materia : correlativas
-    Inscripcion --> Alumno
-    Inscripcion --> Materia
+  ' Relaciones
+  Alumno "1" o-- "*" Materia : materiasAprobadas
+  Materia "1" o-- "*" Materia : correlativas
+  Inscripcion --> Alumno
+  Inscripcion --> Materia
 }
-
 @enduml
